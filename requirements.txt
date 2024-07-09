@@ -1,0 +1,6 @@
+flask
+requests
+flasgger
+responses
+colorama
+urllib3==1.26.6
