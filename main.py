@@ -331,6 +331,20 @@ def delete_user(user_id):
         return {"detail":"user-deleted"}
     else:
         return jsonify({"error": "Failed to delete user"}), response.status_code
+    
+@app.errorhandler(404)
+def not_found_error(e):
+    """
+    404 hatalarını loglar ve tekrar API'den veri getirir.
+    """
+    print(f"404 Error: Request path - {request.full_path}")
+
+    response = requests.get(f"https://reqres.in/api{request.full_path}")
+
+    if response.status_code == 200:
+        return jsonify(response.json()), 200
+    else:
+        return jsonify({"error": "Data not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
